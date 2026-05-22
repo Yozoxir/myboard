@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyBoard — Connexion</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f4f4f0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.card{background:#fff;border:1px solid #e0ddd8;border-radius:20px;padding:40px;width:420px;box-shadow:0 8px 40px rgba(0,0,0,.09)}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;justify-content:center}
+.logo-icon{width:40px;height:40px;background:#3b5bdb;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700}
+.logo-text{font-size:20px;font-weight:700;color:#1c1c1a}
+h2{font-size:22px;font-weight:700;color:#1c1c1a;margin-bottom:6px;text-align:center}
+.sub{font-size:13px;color:#888880;text-align:center;margin-bottom:28px}
+.tabs{display:flex;background:#f4f4f0;border-radius:10px;padding:3px;margin-bottom:24px;gap:2px}
+.tab{flex:1;padding:8px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;background:transparent;color:#888880;transition:all .15s}
+.tab.on{background:#fff;color:#1c1c1a;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+label{font-size:12px;font-weight:600;color:#3d3d38;display:block;margin-bottom:5px;letter-spacing:.3px}
+input{width:100%;background:#f9f9f7;border:1.5px solid #e0ddd8;color:#1c1c1a;font-size:14px;font-family:'Inter',sans-serif;padding:11px 14px;border-radius:10px;outline:none;margin-bottom:14px;transition:border-color .15s}
+input:focus{border-color:#3b5bdb;background:#fff}
+.btn{width:100%;background:#3b5bdb;color:#fff;border:none;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;margin-top:4px}
+.btn:hover{background:#4c6ef5}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.err{background:#fff0f0;border:1px solid #ffc9c9;color:#c92a2a;font-size:12.5px;padding:10px 14px;border-radius:8px;margin-bottom:12px;display:none}
+.err.show{display:block}
+.ok{background:#ebfbee;border:1px solid #b2f2bb;color:#2f9e44;font-size:12.5px;padding:10px 14px;border-radius:8px;margin-bottom:12px;display:none}
+.ok.show{display:block}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0}
+.divider span{flex:1;height:1px;background:#e0ddd8}
+.divider p{font-size:12px;color:#aaa}
+.google-btn{width:100%;background:#fff;border:1.5px solid #e0ddd8;color:#1c1c1a;padding:11px;border-radius:10px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+.google-btn:hover{background:#f9f9f7;border-color:#ccc}
+.google-btn svg{width:18px;height:18px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">B</div>
+    <div class="logo-text">MyBoard</div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="setTab('login')">Connexion</button>
+    <button class="tab" onclick="setTab('signup')">Créer un compte</button>
+  </div>
+  <div id="err" class="err"></div>
+  <div id="ok" class="ok"></div>
+  <div id="formLogin">
+    <label>Email</label>
+    <input type="email" id="lemail" placeholder="toi@email.com" autocomplete="email">
+    <label>Mot de passe</label>
+    <input type="password" id="lpwd" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn" onclick="login()" id="loginBtn">Se connecter</button>
+  </div>
+  <div id="formSignup" style="display:none">
+    <label>Email</label>
+    <input type="email" id="semail" placeholder="toi@email.com" autocomplete="email">
+    <label>Mot de passe</label>
+    <input type="password" id="spwd" placeholder="8 caractères minimum" autocomplete="new-password">
+    <label>Confirmer le mot de passe</label>
+    <input type="password" id="spwd2" placeholder="••••••••" autocomplete="new-password">
+    <button class="btn" onclick="signup()" id="signupBtn">Créer mon compte</button>
+  </div>
+  <div class="divider"><span></span><p>ou</p><span></span></div>
+  <button class="google-btn" onclick="loginGoogle()">
+    <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    Continuer avec Google
+  </button>
+</div>
+
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// check if already logged in
+sb.auth.getSession().then(({data:{session}})=>{ if(session) window.location.href='/'; });
+
+function setTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',(i===0&&t==='login')||(i===1&&t==='signup')));
+  document.getElementById('formLogin').style.display=t==='login'?'block':'none';
+  document.getElementById('formSignup').style.display=t==='signup'?'block':'none';
+  clearMsg();
+}
+function showErr(msg){const el=document.getElementById('err');el.textContent=msg;el.classList.add('show');document.getElementById('ok').classList.remove('show');}
+function showOk(msg){const el=document.getElementById('ok');el.textContent=msg;el.classList.add('show');document.getElementById('err').classList.remove('show');}
+function clearMsg(){document.getElementById('err').classList.remove('show');document.getElementById('ok').classList.remove('show');}
+
+async function login(){
+  const email=document.getElementById('lemail').value.trim();
+  const pwd=document.getElementById('lpwd').value;
+  if(!email||!pwd){showErr('Remplis tous les champs');return;}
+  const btn=document.getElementById('loginBtn');btn.disabled=true;btn.textContent='Connexion...';
+  const{error}=await sb.auth.signInWithPassword({email,password:pwd});
+  if(error){showErr(error.message);btn.disabled=false;btn.textContent='Se connecter';}
+  else window.location.href='/';
+}
+
+async function signup(){
+  const email=document.getElementById('semail').value.trim();
+  const pwd=document.getElementById('spwd').value;
+  const pwd2=document.getElementById('spwd2').value;
+  if(!email||!pwd){showErr('Remplis tous les champs');return;}
+  if(pwd.length<8){showErr('Mot de passe trop court (8 caractères min)');return;}
+  if(pwd!==pwd2){showErr('Les mots de passe ne correspondent pas');return;}
+  const btn=document.getElementById('signupBtn');btn.disabled=true;btn.textContent='Création...';
+  const{error}=await sb.auth.signUp({email,password:pwd});
+  if(error){showErr(error.message);btn.disabled=false;btn.textContent='Créer mon compte';}
+  else showOk('Compte créé ! Vérifie ton email pour confirmer, puis connecte-toi.');
+  btn.disabled=false;btn.textContent='Créer mon compte';
+}
+
+async function loginGoogle(){
+  await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.origin+'/'}});
+}
+
+document.getElementById('lpwd').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+document.getElementById('lemail').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+</script>
+</body>
+</html>

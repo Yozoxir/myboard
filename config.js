@@ -1,0 +1,3 @@
+// supabase config
+const SUPABASE_URL = 'https://yrkjhsgzkigoouemuogm.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlya2poc2d6a2lnb291ZW11b2dtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjgwODksImV4cCI6MjA5NTA0NDA4OX0.Ymcphn03zDr6rkMMo7Ph1B220FdwrEmYxNCP5_Kw4tY';
